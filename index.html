@@ -716,14 +716,6 @@
       -webkit-user-select: none;
     }
 
-    @media (max-width: 900px), (pointer: coarse) {
-      .hex_canvas {
-        width: 100%;
-        max-width: 520px;
-        height: auto;
-        aspect-ratio: 820 / 370;
-      }
-    }
 
     /* Embedded Terminal below Hex (100% Clean & Borderless) */
     .dev_cli_console {
@@ -838,6 +830,67 @@
       z-index: 10;
       padding: 0;
       margin: 0;
+    }
+
+    /* Responsive Mobile Overrides for Frame 1 (Coarse Touch & Mobile Screens) */
+    @media (pointer: coarse), (max-width: 768px) {
+      .dev_matrix_sheet {
+        padding: 24px 30px;
+        justify-content: center;
+      }
+      .dev_matrix_header {
+        margin: 0 auto 12px auto;
+      }
+      .dev_breadcrumb {
+        font-size: 32px;
+        gap: 16px;
+      }
+      .hex_stage {
+        width: 1140px;
+        max-width: 1140px;
+        margin: 0 auto;
+      }
+      .hex_canvas {
+        width: 1140px;
+        max-width: 1140px;
+        height: 430px;
+        aspect-ratio: auto;
+      }
+      .dev_cli_console {
+        width: 1140px;
+        max-width: 1140px;
+        margin: 14px auto 0 auto;
+      }
+      .dev_cli_input_row {
+        padding: 0 6px;
+      }
+      .dev_cli_prompt {
+        font-size: 36px;
+      }
+      .dev_cli_line {
+        min-height: 44px;
+        font-size: 36px;
+      }
+      .dev_cli_text, .dev_cli_text_after {
+        font-size: 36px;
+      }
+      .dev_block_cursor {
+        width: 18px;
+        height: 36px;
+        vertical-align: -3px;
+        margin-left: 3px;
+      }
+      .dev_block_cursor.dev_cursor_char {
+        min-width: 18px;
+        padding: 0 2px;
+      }
+      .dev_cli_input {
+        font-size: 36px;
+      }
+      .dev_cli_history {
+        font-size: 30px;
+        max-height: 140px;
+      }
     }
 
 
@@ -3065,8 +3118,8 @@ def test_zero_lookahead_strict_causality():
 
       if (!hexCanvas || !hexStage) return;
 
-      // 15 rows x 64 columns Hex Dump matrix
-      const HEX_ROWS = [
+      // 15 rows x 64 columns Desktop Hex Dump matrix
+      const HEX_ROWS_DESKTOP = [
         "00000000  bb 54 aa c4 b8 9d c8 68 ba 37 d9 cc     |.T.....h.7..|",
         "00000010  21 b2 ce ce 9f 09 b4 3c eb 7e 57 a0     |!......<.~W.|",
         "00000020  ea 87 66 22 16 24 d0 1b 08 64 64 35     |..f\".$...dd5|",
@@ -3084,8 +3137,8 @@ def test_zero_lookahead_strict_causality():
         "000000e0  99 63 50 64 36 28 51 cf 7d 1e dc 74     |.cPd6(Q.}..t|"
       ];
 
-      // 15 rows x 64 columns Hardware Chip / Monogram 'RUSDAN' matrix
-      const CHIP_ROWS = [
+      // 15 rows x 64 columns Desktop Hardware Chip / Monogram 'RUSDAN' matrix
+      const CHIP_ROWS_DESKTOP = [
         "+--------------------------------------------------------------+",
         "| [CPU-0]   R  U  S  D  A  N   SYSTEMS ARCHITECTURE   [x86_64] |",
         "+--------------------------------------------------------------+",
@@ -3103,32 +3156,80 @@ def test_zero_lookahead_strict_causality():
         "+--------------------------------------------------------------+"
       ];
 
+      // 11 rows x 45 columns Mobile Hex Dump matrix (Clean 8-byte CLI standard)
+      const HEX_ROWS_MOBILE = [
+        "00000000  bb 54 aa c4 b8 9d c8 68  |.T.....h|",
+        "00000008  ba 37 d9 cc 21 b2 ce ce  |.7..!...|",
+        "00000010  9f 09 b4 3c eb 7e 57 a0  |...<.~W.|",
+        "00000018  ea 87 66 22 16 24 d0 1b  |..f\".$..|",
+        "00000020  08 64 64 35 91 64 e7 a0  |.dd5.d..|",
+        "00000028  06 aa dd 75 17 9d 6d 5c  |...u..m\\|",
+        "00000030  5e 19 fd e9 0c f9 b4 83  |^.......|",
+        "00000038  86 22 42 1e 57 a1 28 62  |.\"B.W.(b|",
+        "00000040  e1 81 1b 4c da b2 15 dc  |...L....|",
+        "00000048  93 4f 1c ec b1 c2 23 6a  |.O....#j|",
+        "00000050  b4 86 6d 62 45 f7 c8 db  |..mbE...|"
+      ];
+
+      // 11 rows x 45 columns Mobile Hardware Chip / Monogram 'RUSDAN' matrix
+      const CHIP_ROWS_MOBILE = [
+        "+-------------------------------------------+",
+        "| [CPU-0]  R U S D A N  ARCH [x86_64] L1:64K|",
+        "+-------------------------------------------+",
+        "| [BUS] 0x00 --[ HIGH-PERF KERNEL ]-- 0xFF  |",
+        "| +--+ +--+   =================   +--+ +--+ |",
+        "| |R | |U |   | ####  #  #  ### | |D | |A | |",
+        "| |--| |--|   | #  #  #  # #    | |--| |--| |",
+        "| |  | |  |   | ####  #  #  ##  | |  | |  | |",
+        "| +--+ +--+   | # #   #  #    # | +--+ +--+ |",
+        "| [MEM: 256GB ECC]      [LATENCY: 12ns] [UP]|",
+        "+-------------------------------------------+"
+      ];
+
       // Buena's exact Linear Congruential Generator D(2)
       function D(seed) {
         let t = seed >>> 0;
         return () => (t = Math.imul(t, 1664525) + 0x3c6ef35f >>> 0) / 0x100000000;
       }
-      const randLCG = D(2);
 
-      const THRESHOLDS = [];
-      for (let r = 0; r < 15; r++) {
-        THRESHOLDS[r] = [];
-        for (let c = 0; c < 64; c++) {
-          THRESHOLDS[r][c] = randLCG();
+      function isMobileMode() {
+        return window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
+      }
+
+      let isMobile = isMobileMode();
+      let CSS_W = isMobile ? 1140 : 820;
+      let CSS_H = isMobile ? 430 : 370;
+      let FONT_SIZE = isMobile ? 36 : 17;
+      let LINE_HEIGHT = isMobile ? 38.5 : 24.2;
+      let CHAR_WIDTH = isMobile ? 25.1 : 12.6;
+      let NUM_ROWS = isMobile ? 11 : 15;
+      let NUM_COLS = isMobile ? 45 : 64;
+      let activeHexRows = isMobile ? HEX_ROWS_MOBILE : HEX_ROWS_DESKTOP;
+      let activeChipRows = isMobile ? CHIP_ROWS_MOBILE : CHIP_ROWS_DESKTOP;
+
+      let THRESHOLDS = [];
+      function buildThresholds() {
+        const randLCG = D(2);
+        THRESHOLDS = [];
+        for (let r = 0; r < NUM_ROWS; r++) {
+          THRESHOLDS[r] = [];
+          for (let c = 0; c < NUM_COLS; c++) {
+            THRESHOLDS[r][c] = randLCG();
+          }
         }
       }
+      buildThresholds();
 
       const ctx = hexCanvas.getContext('2d');
       const dpr = window.devicePixelRatio || 2;
-      const CSS_W = 820;
-      const CSS_H = 370;
-      hexCanvas.width = CSS_W * dpr;
-      hexCanvas.height = CSS_H * dpr;
-      ctx.scale(dpr, dpr);
 
-      const FONT_SIZE = 17;
-      const LINE_HEIGHT = 24.2;
-      const CHAR_WIDTH = 12.6;
+      function configureCanvas() {
+        hexCanvas.width = CSS_W * dpr;
+        hexCanvas.height = CSS_H * dpr;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+      }
+      configureCanvas();
 
       let currentMorphProgress = 0; // 0 = Hex, 1 = Chip
       let targetMorphProgress = 0;
@@ -3139,13 +3240,13 @@ def test_zero_lookahead_strict_causality():
         ctx.font = '600 ' + FONT_SIZE + 'px "JetBrains Mono", Consolas, monospace';
         ctx.textBaseline = 'top';
 
-        for (let r = 0; r < 15; r++) {
-          const hLine = HEX_ROWS[r] || '';
-          const cLine = CHIP_ROWS[r] || '';
-          const y = r * LINE_HEIGHT + 4;
+        for (let r = 0; r < NUM_ROWS; r++) {
+          const hLine = activeHexRows[r] || '';
+          const cLine = activeChipRows[r] || '';
+          const y = r * LINE_HEIGHT + (isMobile ? 3 : 4);
 
-          for (let c = 0; c < 64; c++) {
-            const th = THRESHOLDS[r][c];
+          for (let c = 0; c < NUM_COLS; c++) {
+            const th = (THRESHOLDS[r] && THRESHOLDS[r][c] !== undefined) ? THRESHOLDS[r][c] : 0.5;
             const isChip = progress >= th;
             const ch = isChip ? (cLine[c] || ' ') : (hLine[c] || ' ');
             const x = c * CHAR_WIDTH + 6;
@@ -3158,6 +3259,26 @@ def test_zero_lookahead_strict_causality():
 
       // Initial Draw (Hex mode)
       drawMatrix(0);
+
+      function recheckDimensions() {
+        const nextMobile = isMobileMode();
+        if (nextMobile !== isMobile) {
+          isMobile = nextMobile;
+          CSS_W = isMobile ? 1140 : 820;
+          CSS_H = isMobile ? 430 : 370;
+          FONT_SIZE = isMobile ? 36 : 17;
+          LINE_HEIGHT = isMobile ? 38.5 : 24.2;
+          CHAR_WIDTH = isMobile ? 25.1 : 12.6;
+          NUM_ROWS = isMobile ? 11 : 15;
+          NUM_COLS = isMobile ? 45 : 64;
+          activeHexRows = isMobile ? HEX_ROWS_MOBILE : HEX_ROWS_DESKTOP;
+          activeChipRows = isMobile ? CHIP_ROWS_MOBILE : CHIP_ROWS_DESKTOP;
+          buildThresholds();
+          configureCanvas();
+          drawMatrix(currentMorphProgress);
+        }
+      }
+      window.addEventListener('resize', recheckDimensions);
 
       function animateMorph() {
         const step = (targetMorphProgress - currentMorphProgress) * 0.16;
@@ -3281,10 +3402,12 @@ def test_zero_lookahead_strict_causality():
       function appendCliLog(command, outputLines) {
         if (!devCliHistory) return;
         const entry = document.createElement('div');
-        entry.style.marginBottom = '8px';
+        entry.style.marginBottom = isMobile ? '12px' : '8px';
+        const cmdSize = isMobile ? '32px' : '15px';
+        const outSize = isMobile ? '30px' : '14.5px';
         entry.innerHTML = `
-          <div style="color: #57606A; font-weight: 600; font-size: 15px;">~ $ <span style="color: #111317; font-weight: 500;">${command}</span></div>
-          <div style="padding-left: 16px; color: #374151; font-size: 14.5px; line-height: 1.6; margin-top: 3px;">
+          <div style="color: #57606A; font-weight: 600; font-size: ${cmdSize};">~ $ <span style="color: #111317; font-weight: 500;">${command}</span></div>
+          <div style="padding-left: ${isMobile ? '24px' : '16px'}; color: #374151; font-size: ${outSize}; line-height: 1.6; margin-top: 4px;">
             ${outputLines.join('<br>')}
           </div>
         `;
