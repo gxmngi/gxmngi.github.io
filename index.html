@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Rusdan — Software Engineer</title>
+
+  <!-- Favicon: Canonical Minimal Red Pellet (Rauno 1:1 Signature in Pure Red #FF484C) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Ccircle cx='80' cy='80' r='80' fill='%23FF484C'/%3E%3C/svg%3E" />
+  <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Ccircle cx='80' cy='80' r='80' fill='%23FF484C'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Ccircle cx='80' cy='80' r='80' fill='%23FF484C'/%3E%3C/svg%3E" />
   
   <!-- Fonts: Caveat (Creative Handwriting), Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -210,18 +215,7 @@
     }
 
     .index_frame:not([data-variant="main"]) {
-      opacity: 0;
-      animation: index_fadeFrames 0.35s ease-in-out 0.8s forwards;
-    }
-
-    main[data-cancel-animation="true"] .index_frame {
-      animation-delay: 0s !important;
-    }
-
-    @keyframes index_fadeFrames {
-      to {
-        opacity: 1;
-      }
+      opacity: 1;
     }
 
     .frame_sheet {
@@ -696,7 +690,8 @@
       font-weight: 600;
     }
 
-    /* Hex & Hardware Chip Morph Stage (100% Borderless & Clean) */
+    /* Hex & Hardware Chip Morph Stage (Buena 1:1 Stochastic Architecture) */
+    /* Hex & Hardware Chip Morph Stage (Buena 1:1 Stochastic Architecture - 120 FPS Optimized) */
     .hex_stage {
       width: fit-content;
       margin: 0 auto;
@@ -708,92 +703,143 @@
       cursor: crosshair;
       position: relative;
       overflow: visible;
-    }
-
-    .hex_layer {
-      margin: 0;
-      font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-      font-size: 21px;
-      line-height: 1.38;
-      letter-spacing: 0.02em;
-      white-space: pre;
-      transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
       contain: layout paint;
     }
 
-    .hex_layer_dump {
-      color: #1F2328;
-      opacity: 1;
+    .hex_canvas {
+      width: 820px;
+      height: 370px;
+      display: block;
+      margin: 0 auto;
+      cursor: crosshair;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    .hex_layer_chip {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      color: #0047FF;
-      font-weight: 600;
-      opacity: 0;
-      pointer-events: none;
+    @media (max-width: 900px), (pointer: coarse) {
+      .hex_canvas {
+        width: 100%;
+        max-width: 520px;
+        height: auto;
+        aspect-ratio: 820 / 370;
+      }
     }
 
-    /* Hover morph or class morph */
-    .hex_stage:hover .hex_layer_dump,
-    .hex_stage.morphed .hex_layer_dump {
-      opacity: 0;
-    }
-
-    .hex_stage:hover .hex_layer_chip,
-    .hex_stage.morphed .hex_layer_chip {
-      opacity: 1;
-    }
-
-    /* Embedded Terminal below Hex */
+    /* Embedded Terminal below Hex (100% Clean & Borderless) */
     .dev_cli_console {
       width: 100%;
       max-width: 820px;
-      margin: 18px auto 0 auto;
+      margin: 20px auto 0 auto;
       font-family: 'JetBrains Mono', 'SF Mono', monospace;
-      font-size: 13.5px;
-      line-height: 1.5;
     }
 
     .dev_cli_history {
-      max-height: 100px;
+      max-height: 120px;
       overflow-y: auto;
       margin-bottom: 8px;
+      padding: 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .dev_cli_history::-webkit-scrollbar {
+      display: none;
+    }
+
+    @keyframes devCursorBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
     }
 
     .dev_cli_input_row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      color: #1F2328;
+      gap: 10px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      width: 100%;
+      cursor: text;
     }
 
     .dev_cli_prompt {
-      color: #0969DA;
+      color: #57606A;
       font-weight: 600;
+      font-size: 18px;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .dev_cli_line {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex: 1;
+      min-height: 28px;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 18px;
+      cursor: text;
+    }
+
+    .dev_cli_text {
+      white-space: pre;
+      font-family: inherit;
+      font-size: 18px;
+      font-weight: 500;
+      color: #111317;
+      line-height: 1;
+    }
+
+    .dev_block_cursor {
+      display: inline-block;
+      width: 9.5px;
+      height: 19px;
+      vertical-align: -2px;
+      margin-left: 2px;
+      background-color: #111317;
+      animation: devCursorBlink 1s infinite;
+      flex-shrink: 0;
+      border-radius: 0;
+      pointer-events: none;
       user-select: none;
     }
 
-    .dev_cli_input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: #1F2328;
-      caret-color: #FF484C;
+    .dev_block_cursor.dev_cursor_char {
+      width: auto;
+      min-width: 9.5px;
+      padding: 0 1px;
+      background-color: #111317;
+      color: #FFFFFF;
     }
 
-    .dev_cli_input::placeholder {
-      color: #8C959F;
-      font-size: 12.5px;
+    .dev_cli_text_after {
+      white-space: pre;
+      font-family: inherit;
+      font-size: 18px;
+      font-weight: 500;
+      color: #111317;
+      line-height: 1;
     }
+
+    .dev_cli_input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 18px;
+      cursor: text;
+      z-index: 10;
+      padding: 0;
+      margin: 0;
+    }
+
 
     /* -------------------------------------------------------------
        FRAME 4: LIGHT THEME MACOS TERMINAL (CONTINUOUS COMMAND ENGINE)
@@ -910,25 +956,27 @@
     }
 
     .term_line {
-      margin-bottom: 10px;
-      word-break: break-word;
+      margin-bottom: 8px;
+      white-space: pre;
+      overflow-x: hidden;
     }
 
     .term_prompt_wrap {
       display: flex;
       align-items: center;
       gap: 12px;
+      white-space: pre;
     }
 
     .term_triangle {
-      color: #090A0C;
-      font-size: 14px;
+      color: #000000;
+      font-size: 13px;
       line-height: 1;
       user-select: none;
     }
 
     .term_dir {
-      color: #374151;
+      color: #000000;
       font-weight: 600;
       font-size: 18px;
     }
@@ -938,51 +986,26 @@
       font-weight: 700;
       font-size: 18.5px;
       letter-spacing: -0.01em;
+      white-space: pre;
     }
 
     .term_output {
       padding-left: 26px;
       font-size: 17px;
-      color: #1F2328;
-      margin-top: 3px;
-      line-height: 1.65;
-      font-weight: 500;
-    }
-
-    .term_output.bold {
-      font-weight: 700;
       color: #000000;
+      margin-top: 2px;
+      line-height: 1.6;
+      font-weight: 500;
+      white-space: pre;
+      overflow-x: hidden;
     }
 
-    .term_output.success {
-      color: #1A7F37;
-      font-weight: 600;
-    }
-
-    .term_output.info {
-      color: #0969DA;
-      font-weight: 600;
-    }
-
-    .term_output.warn {
-      color: #9A6700;
-      font-weight: 600;
-    }
-
-    .term_output.muted {
-      color: #4B5563;
-    }
-
-    .term_output.accent {
-      color: #CF222E;
-      font-weight: 600;
-    }
 
     .term_cursor {
       display: inline-block;
       width: 9px;
       height: 19px;
-      background: #FF484C;
+      background: #000000;
       vertical-align: -3px;
       margin-left: 4px;
       animation: termBlink 1s infinite;
@@ -1549,10 +1572,12 @@
         overscroll-behavior-x: auto;
         overflow-x: auto;
         overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
       }
       html:has(main[data-sheet="index"]),
       html:has(main[data-sheet="index"]) body {
         overscroll-behavior-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .index_ghost {
         height: 1px !important;
@@ -1645,18 +1670,20 @@
               </div>
             </div>
 
-            <!-- Hex & Hardware Chip / Monogram Morph Stage (Borderless & Clean) -->
-            <div class="hex_stage" id="hex-stage" title="Hover to inspect architecture">
-              <pre class="hex_layer hex_layer_dump" id="hex-pre-dump"></pre>
-              <pre class="hex_layer hex_layer_chip" id="hex-pre-chip"></pre>
+            <!-- Hex & Hardware Chip / Monogram Morph Stage (Buena 1:1 High-Performance Canvas Engine) -->
+            <div class="hex_stage" id="hex-stage" title="Click to toggle matrix (Hex Dump ↔ Hardware Chip)">
+              <canvas id="hex-canvas" class="hex_canvas"></canvas>
             </div>
 
-            <!-- Interactive CLI Console below -->
+            <!-- Interactive CLI Console below (Authentic Dev Block Cursor) -->
             <div class="dev_cli_console">
               <div class="dev_cli_history" id="dev-cli-history"></div>
-              <div class="dev_cli_input_row">
+              <div class="dev_cli_input_row" id="dev-cli-row">
                 <span class="dev_cli_prompt">~ $</span>
-                <input type="text" class="dev_cli_input" id="dev-cli-input" placeholder="type 'help', 'whoami', 'skills', 'chip', 'philosophy', or hover over the matrix above..." autocomplete="off" spellcheck="false" />
+                <div class="dev_cli_line" id="dev-cli-line">
+                  <span class="dev_cli_text" id="dev-cli-text"></span><span class="dev_block_cursor" id="dev-cursor"></span><span class="dev_cli_text_after" id="dev-cli-text-after"></span>
+                  <input type="text" class="dev_cli_input" id="dev-cli-input" autocomplete="off" spellcheck="false" />
+                </div>
               </div>
             </div>
           </div>
@@ -2136,10 +2163,10 @@ def test_zero_lookahead_strict_causality():
       lines.push(line);
     }
 
-    // Camera Position, Scale & Minimap Physics Springs (Critically Damped 120 FPS Silk Interpolator)
-    const cameraXSpring = new Spring(0, 380, 42, 0.22);
-    const scaleSpring = new Spring(1.0, 500, 50, 0.2);
-    const trackerSpring = new Spring(0, 440, 44, 0.2);
+    // Camera Position, Scale & Minimap Physics Springs (Responsive Critically-Damped 120 FPS Silk Interpolator)
+    const cameraXSpring = new Spring(0, 960, 54, 0.14);
+    const scaleSpring = new Spring(1.0, 960, 54, 0.14);
+    const trackerSpring = new Spring(0, 960, 54, 0.14);
     let currentCameraX = 0;
 
     // Slide Parallax Springs for frames (Rauno 1:1)
@@ -2170,6 +2197,7 @@ def test_zero_lookahead_strict_causality():
         ghost.style.height = '1px';
         currentStep = 1240 * scale;
         scaleSpring.jump(initialScale);
+        framesTrack.style.transform = `scale(${initialScale.toFixed(4)})`;
       } else {
         ghost.style.width = `calc(100vw + ${ghostDist}px)`;
         ghost.style.height = `calc(100vh + ${ghostDist}px)`;
@@ -2195,9 +2223,11 @@ def test_zero_lookahead_strict_causality():
     });
 
     /* -------------------------------------------------------------
-       INTERPOLATION RENDER LOOP (120 FPS SILK ENGINE)
+       INTERPOLATION RENDER LOOP (120 FPS SILK ENGINE - ZERO THRASHING)
        ------------------------------------------------------------- */
     let lastTime = performance.now();
+    let lastTrackerX = -999;
+    let lastScrollPos = -999;
 
     function tick(now) {
       const dt = Math.min((now - lastTime) / 1000, 0.033);
@@ -2213,12 +2243,9 @@ def test_zero_lookahead_strict_causality():
 
       let currentScale = initialScale;
       if (isCoarse) {
-        // Mobile touch device: Rauno 1:1 architecture
-        // Native horizontal scroll moves viewport across absolute center stage.
-        // framesTrack ONLY scales, NO translateX/translate3d to prevent double-translation!
+        // Mobile touch device: Native hardware momentum scrolling
         scaleSpring.jump(initialScale);
         currentScale = initialScale;
-        framesTrack.style.transform = `scale(${initialScale.toFixed(4)})`;
       } else {
         // Desktop mouse wheel camera spring
         cameraXSpring.setTarget(-scrollPos);
@@ -2227,10 +2254,10 @@ def test_zero_lookahead_strict_causality():
           currentCameraX = -scrollPos;
         }
 
-        // Desktop zoom out to GALLERY_SCALE (0.6)
+        // Desktop zoom out to GALLERY_SCALE (0.6) spanning smoothly across full currentStep
         let targetScale = initialScale;
         if (scrollPos > 0) {
-          const drop = (scrollPos / 200) * (initialScale - GALLERY_SCALE);
+          const drop = (scrollPos / currentStep) * (initialScale - GALLERY_SCALE);
           targetScale = clamp(initialScale - drop, GALLERY_SCALE, initialScale);
         }
         scaleSpring.setTarget(targetScale);
@@ -2239,17 +2266,21 @@ def test_zero_lookahead_strict_causality():
         framesTrack.style.transform = `translate3d(${currentCameraX.toFixed(2)}px, 0, 0) scale(${currentScale.toFixed(4)})`;
       }
 
-      // Minimap Tracker & Line collision fade with trackerSpring
+      // Minimap Tracker & Line collision fade (only dirty check when changed)
       const targetTrackerX = ghostDist > 0 ? clamp((scrollPos / ghostDist) * 160, 0, 160) : 0;
       trackerSpring.setTarget(targetTrackerX);
       const curTrackerX = isCoarse ? targetTrackerX : trackerSpring.update(dt);
-      minimapTracker.style.transform = `translate3d(${curTrackerX.toFixed(2)}px, 0, 0)`;
 
-      lines.forEach((line, n) => {
-        const p = n * 10 - 30;
-        const t = Number(curTrackerX) - Number(p) + 2;
-        line.style.opacity = (t >= 0 && t < 34) ? '0' : '1';
-      });
+      if (Math.abs(curTrackerX - lastTrackerX) > 0.04) {
+        lastTrackerX = curTrackerX;
+        minimapTracker.style.transform = `translate3d(${curTrackerX.toFixed(2)}px, 0, 0)`;
+
+        lines.forEach((line, n) => {
+          const p = n * 10 - 30;
+          const t = Number(curTrackerX) - Number(p) + 2;
+          line.style.opacity = (t >= 0 && t < 34) ? '0' : '1';
+        });
+      }
 
       // Parallax Lateral Slide for giant text inside frames (Rauno 1:1)
       slideFrames.forEach(sf => {
@@ -2269,35 +2300,17 @@ def test_zero_lookahead_strict_causality():
 
       // Hero Canvas sleep/wake check based on real camera position
       const heroOffset = isCoarse ? scrollPos : Math.abs(currentCameraX);
-      const isHeroVisible = heroOffset < 1100;
+      const heroThreshold = isCoarse ? (currentStep * 0.55) : (currentStep * 0.45);
+      const isHeroVisible = heroOffset < heroThreshold;
       if (isHeroVisible && typeof heroKernelRunning !== 'undefined' && !heroKernelRunning) {
         heroKernelRunning = true;
         requestAnimationFrame(renderHeroKernel);
       }
 
+      lastScrollPos = scrollPos;
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
-
-    /* -------------------------------------------------------------
-       MOBILE TOUCH GENTLE SNAP ENGINE (RAUNO 1:1)
-       Preserves 100% native hardware kinetic scrolling, then gently
-       magnetic-snaps to the nearest card on settle.
-       ------------------------------------------------------------- */
-    let touchSnapTimer = null;
-    window.addEventListener('scroll', () => {
-      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
-      if (!isCoarse) return;
-      clearTimeout(touchSnapTimer);
-      touchSnapTimer = setTimeout(() => {
-        const currentScroll = window.scrollX;
-        const nearestIdx = Math.round(currentScroll / currentStep);
-        const diff = Math.abs(currentScroll - nearestIdx * currentStep);
-        if (diff > 2 && diff < currentStep * 0.48) {
-          window.scrollTo({ left: nearestIdx * currentStep, behavior: 'smooth' });
-        }
-      }, 140);
-    }, { passive: true });
 
 
 
@@ -2557,7 +2570,10 @@ def test_zero_lookahead_strict_causality():
     let heroKernelRunning = true;
     function renderHeroKernel() {
       // Dynamic Viewport Culling: pause rendering when hero frame is not visible
-      if (Math.abs(currentCameraX) > 1100) {
+      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+      const heroDist = isCoarse ? window.scrollX : Math.abs(currentCameraX);
+      const heroThreshold = isCoarse ? (currentStep * 0.55) : 500;
+      if (heroDist > heroThreshold) {
         heroKernelRunning = false;
         return;
       }
@@ -2771,7 +2787,14 @@ def test_zero_lookahead_strict_causality():
     }
 
     renderFallbackContributions();
-    loadLiveGitHubContributions();
+    // Defer live contributions fetch to idle time so it never interrupts early scroll navigation
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        setTimeout(loadLiveGitHubContributions, 2200);
+      });
+    } else {
+      setTimeout(loadLiveGitHubContributions, 2500);
+    }
   
     /* -------------------------------------------------------------
        FIELD NOTES DRAWER & COMING SOON TOAST ENGINE
@@ -2858,62 +2881,69 @@ def test_zero_lookahead_strict_causality():
           dir: '~',
           cmd: 'whoami',
           outputs: [
-            { text: 'rusdan lamsa — software engineer', type: 'bold' }
+            'rusdan lamsa — software engineer'
           ]
         },
         {
           dir: '~',
           cmd: 'cat profile.json',
           outputs: [
-            { text: '{', type: 'muted' },
-            { text: '  "name": "Rusdan Lamsa",', type: 'info' },
-            { text: '  "role": "Software Engineer",', type: 'success' },
-            { text: '  "focus": "High-Performance Systems & Clean Craft",', type: 'bold' },
-            { text: '  "location": "Bangkok, Thailand",', type: 'muted' },
-            { text: '  "status": "Building deterministic systems"', type: 'warn' },
-            { text: '}', type: 'muted' }
+            '{',
+            '  "name": "Rusdan Lamsa",',
+            '  "role": "Software Engineer",',
+            '  "focus": "High-Performance Systems & Clean Craft",',
+            '  "location": "Bangkok, Thailand",',
+            '  "status": "Building deterministic systems"',
+            '}'
           ]
         },
         {
           dir: '~',
           cmd: 'cat skills.txt',
           outputs: [
-            { text: 'Languages : TypeScript, Python, Go, Rust, C++, SQL', type: 'success' },
-            { text: 'Systems   : Architecture, Clean APIs, Micro-benchmarking, Linux', type: 'info' },
-            { text: 'Mindset   : Deterministic execution, zero lookahead, clean craft', type: 'bold' }
+            'Languages : TypeScript, Python, Go, Rust, C++, SQL',
+            'Systems   : Architecture, Clean APIs, Micro-benchmarks, Linux',
+            'Mindset   : Deterministic execution, zero lookahead, clean craft'
           ]
         },
         {
           dir: '~',
           cmd: 'echo $PHILOSOPHY',
           outputs: [
-            { text: '"Make it deterministic. Make it low-latency. Make it timeless."', type: 'bold' }
+            '"Make it deterministic. Make it low-latency. Make it timeless."'
           ]
         },
         {
           dir: '~',
           cmd: 'contact',
           outputs: [
-            { text: 'Email  : rusdanlamsa@gmail.com', type: 'info' },
-            { text: 'GitHub : github.com/gxmngi', type: 'success' }
+            'Email  : rusdanlamsa@gmail.com',
+            'GitHub : github.com/gxmngi'
           ]
         }
       ];
 
       const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+      const isCoarseTerm = window.matchMedia('(pointer: coarse)').matches;
+      const getTermDist = () => {
+        const scrollVal = isCoarseTerm ? window.scrollX : window.scrollY;
+        return Math.abs(scrollVal - 5 * currentStep);
+      };
+
       async function runTerminalEngine() {
         while (true) {
           // If terminal card is far outside visible viewport, sleep and pause to eliminate main-thread churn
-          while (Math.abs(window.scrollY - 5 * currentStep) > 2200) {
-            await sleep(350);
+          while (getTermDist() > 1100) {
+            await sleep(400);
           }
 
           terminalScreen.innerHTML = '';
 
           for (const item of scenarios) {
-            if (Math.abs(window.scrollY - 5 * currentStep) > 2200) {
-              await sleep(350);
+            if (getTermDist() > 1100) {
+              await sleep(400);
+              break;
             }
 
             // Create Line container
@@ -2943,37 +2973,38 @@ def test_zero_lookahead_strict_causality():
             promptWrap.appendChild(cursor);
             lineEl.appendChild(promptWrap);
             terminalScreen.appendChild(lineEl);
+            terminalScreen.scrollTop = terminalScreen.scrollHeight;
 
-            if (Math.abs(window.scrollY - 5 * currentStep) < 1400) {
-              terminalScreen.scrollTop = terminalScreen.scrollHeight;
-            }
-
-            // Type out command letter by letter (optimized without layout thrashing)
+            // Type out command letter by letter fast
             for (let i = 0; i < item.cmd.length; i++) {
               cmdSpan.textContent += item.cmd[i];
-              await sleep(25 + Math.random() * 30);
+              await sleep(18 + Math.random() * 14);
             }
-            if (Math.abs(window.scrollY - 5 * currentStep) < 1400) {
-              terminalScreen.scrollTop = terminalScreen.scrollHeight;
-            }
+            if (getTermDist() > 1100) { await sleep(400); break; }
+            terminalScreen.scrollTop = terminalScreen.scrollHeight;
 
             // Pause before execution
-            await sleep(240);
+            await sleep(160);
             cursor.remove();
 
-            // Print outputs
-            for (const out of item.outputs) {
+            // Type each output line character by character fast (zero wrap, pure black)
+            for (const textLine of item.outputs) {
+              if (getTermDist() > 1100) { await sleep(400); break; }
+
               const outDiv = document.createElement('div');
-              outDiv.className = `term_output ${out.type || ''}`;
-              outDiv.textContent = out.text;
+              outDiv.className = 'term_output';
               lineEl.appendChild(outDiv);
-              await sleep(55);
-            }
-            if (Math.abs(window.scrollY - 5 * currentStep) < 1400) {
+
+              for (let c = 0; c < textLine.length; c++) {
+                outDiv.textContent += textLine[c];
+                await sleep(7 + Math.random() * 5); // 7-12ms per char: fast, crisp typewriter
+              }
               terminalScreen.scrollTop = terminalScreen.scrollHeight;
+              await sleep(35);
             }
 
-            await sleep(1100);
+            terminalScreen.scrollTop = terminalScreen.scrollHeight;
+            await sleep(900);
           }
 
           // At the end of cycle, type clear and reset
@@ -2988,17 +3019,15 @@ def test_zero_lookahead_strict_causality():
             </div>
           `;
           terminalScreen.appendChild(clearLine);
-          if (Math.abs(window.scrollY - 5 * currentStep) < 1400) {
-            terminalScreen.scrollTop = terminalScreen.scrollHeight;
-          }
+          terminalScreen.scrollTop = terminalScreen.scrollHeight;
 
           const clearCmdEl = document.getElementById('term-clear-cmd');
           const clearText = 'clear';
           for (let i = 0; i < clearText.length; i++) {
             if (clearCmdEl) clearCmdEl.textContent += clearText[i];
-            await sleep(45);
+            await sleep(35);
           }
-          await sleep(600);
+          await sleep(550);
         }
       }
 
@@ -3019,14 +3048,22 @@ def test_zero_lookahead_strict_causality():
        FRAME 1: DEV MATRIX (BORDERLESS CLEAN HEX DUMP ↔ HARDWARE CHIP / RUSDAN)
        High-Performance Dual Layer Architecture (Zero Lag, 120 FPS)
        ------------------------------------------------------------- */
+    /* -------------------------------------------------------------
+       FRAME 1: DEV MATRIX (BUENA-STYLE STOCHASTIC HEX ↔ CHIP MATRIX)
+       Dual-Layer Per-Cell Stochastic Delay Architecture (Zero Lag, 120 FPS)
+       ------------------------------------------------------------- */
     (function initDevMatrix() {
-      const hexPreDump = document.getElementById('hex-pre-dump');
-      const hexPreChip = document.getElementById('hex-pre-chip');
+      const hexCanvas = document.getElementById('hex-canvas');
       const hexStage = document.getElementById('hex-stage');
+      const devCliRow = document.getElementById('dev-cli-row');
+      const devCliLine = document.getElementById('dev-cli-line');
       const devCliInput = document.getElementById('dev-cli-input');
+      const devCliText = document.getElementById('dev-cli-text');
+      const devCursor = document.getElementById('dev-cursor');
+      const devCliTextAfter = document.getElementById('dev-cli-text-after');
       const devCliHistory = document.getElementById('dev-cli-history');
 
-      if (!hexPreDump || !hexPreChip) return;
+      if (!hexCanvas || !hexStage) return;
 
       // 15 rows x 64 columns Hex Dump matrix
       const HEX_ROWS = [
@@ -3066,29 +3103,188 @@ def test_zero_lookahead_strict_causality():
         "+--------------------------------------------------------------+"
       ];
 
-      hexPreDump.textContent = HEX_ROWS.join('\n');
-      hexPreChip.textContent = CHIP_ROWS.join('\n');
+      // Buena's exact Linear Congruential Generator D(2)
+      function D(seed) {
+        let t = seed >>> 0;
+        return () => (t = Math.imul(t, 1664525) + 0x3c6ef35f >>> 0) / 0x100000000;
+      }
+      const randLCG = D(2);
 
-      // Click to toggle morph as well as hover
-      let isMorphed = false;
-      function toggleMorph(forced) {
-        isMorphed = typeof forced === 'boolean' ? forced : !isMorphed;
-        if (isMorphed) {
-          hexStage.classList.add('morphed');
-        } else {
-          hexStage.classList.remove('morphed');
+      const THRESHOLDS = [];
+      for (let r = 0; r < 15; r++) {
+        THRESHOLDS[r] = [];
+        for (let c = 0; c < 64; c++) {
+          THRESHOLDS[r][c] = randLCG();
         }
       }
-      hexStage.addEventListener('click', () => toggleMorph());
 
-      // CLI Console Engine
+      const ctx = hexCanvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 2;
+      const CSS_W = 820;
+      const CSS_H = 370;
+      hexCanvas.width = CSS_W * dpr;
+      hexCanvas.height = CSS_H * dpr;
+      ctx.scale(dpr, dpr);
+
+      const FONT_SIZE = 17;
+      const LINE_HEIGHT = 24.2;
+      const CHAR_WIDTH = 12.6;
+
+      let currentMorphProgress = 0; // 0 = Hex, 1 = Chip
+      let targetMorphProgress = 0;
+      let morphAnimId = null;
+
+      function drawMatrix(progress) {
+        ctx.clearRect(0, 0, CSS_W, CSS_H);
+        ctx.font = '600 ' + FONT_SIZE + 'px "JetBrains Mono", Consolas, monospace';
+        ctx.textBaseline = 'top';
+
+        for (let r = 0; r < 15; r++) {
+          const hLine = HEX_ROWS[r] || '';
+          const cLine = CHIP_ROWS[r] || '';
+          const y = r * LINE_HEIGHT + 4;
+
+          for (let c = 0; c < 64; c++) {
+            const th = THRESHOLDS[r][c];
+            const isChip = progress >= th;
+            const ch = isChip ? (cLine[c] || ' ') : (hLine[c] || ' ');
+            const x = c * CHAR_WIDTH + 6;
+
+            ctx.fillStyle = isChip ? '#0047FF' : '#1F2328';
+            ctx.fillText(ch, x, y);
+          }
+        }
+      }
+
+      // Initial Draw (Hex mode)
+      drawMatrix(0);
+
+      function animateMorph() {
+        const step = (targetMorphProgress - currentMorphProgress) * 0.16;
+        if (Math.abs(targetMorphProgress - currentMorphProgress) < 0.015) {
+          currentMorphProgress = targetMorphProgress;
+          drawMatrix(currentMorphProgress);
+          morphAnimId = null;
+          return;
+        }
+        currentMorphProgress += step;
+        drawMatrix(currentMorphProgress);
+        morphAnimId = requestAnimationFrame(animateMorph);
+      }
+
+      function startMorphTo(target) {
+        targetMorphProgress = target;
+        if (!morphAnimId) {
+          morphAnimId = requestAnimationFrame(animateMorph);
+        }
+      }
+
+      function toggleMorph() {
+        startMorphTo(targetMorphProgress === 1 ? 0 : 1);
+      }
+
+      // Smart Resting Auto-Morph Scheduler:
+      // Only morph when user is stably resting on Frame 1 for at least 2.2 seconds
+      // ZERO morph execution during active scrolling, eliminating all scroll freezes
+      let morphTimeout = null;
+      let isSettledOnFrame1 = false;
+      let isUserScrolling = false;
+      let scrollTimer = null;
+
+      function checkFrame1Settled() {
+        const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+        const scrollVal = isCoarse ? window.scrollX : (window.scrollY || Math.abs(currentCameraX));
+        const onFrame1 = Math.abs(scrollVal - 1 * currentStep) < (currentStep * 0.45);
+
+        if (onFrame1) {
+          if (!isSettledOnFrame1) {
+            isSettledOnFrame1 = true;
+            scheduleNextMorph(2200);
+          }
+        } else {
+          isSettledOnFrame1 = false;
+          if (morphTimeout) {
+            clearTimeout(morphTimeout);
+            morphTimeout = null;
+          }
+        }
+      }
+
+      function scheduleNextMorph(delayMs) {
+        if (morphTimeout) clearTimeout(morphTimeout);
+        morphTimeout = setTimeout(() => {
+          if (isSettledOnFrame1 && !isUserScrolling) {
+            toggleMorph();
+            scheduleNextMorph(2400);
+          }
+        }, delayMs);
+      }
+
+      window.addEventListener('scroll', () => {
+        isUserScrolling = true;
+        if (morphTimeout) {
+          clearTimeout(morphTimeout);
+          morphTimeout = null;
+        }
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          isUserScrolling = false;
+          checkFrame1Settled();
+        }, 180);
+      }, { passive: true });
+
+      checkFrame1Settled();
+
+      // Desktop hover pauses the auto-morphing
+      hexStage.addEventListener('mouseenter', () => {
+        if (morphTimeout) {
+          clearTimeout(morphTimeout);
+          morphTimeout = null;
+        }
+      });
+      hexStage.addEventListener('mouseleave', () => {
+        if (isSettledOnFrame1) scheduleNextMorph(1800);
+      });
+
+      // Click or tap toggles immediately and resets the timer
+      hexStage.addEventListener('click', () => {
+        if (morphTimeout) {
+          clearTimeout(morphTimeout);
+          morphTimeout = null;
+        }
+        toggleMorph();
+        if (isSettledOnFrame1) scheduleNextMorph(2400);
+      });
+
+      // CLI Console Engine with Authentic Dev Block Cursor
+      function updateCliDisplay() {
+        if (!devCliInput || !devCliText || !devCursor) return;
+        const val = devCliInput.value;
+        const sel = devCliInput.selectionStart ?? val.length;
+        if (sel >= val.length) {
+          devCliText.textContent = val;
+          devCursor.textContent = '';
+          devCursor.className = 'dev_block_cursor';
+          if (devCliTextAfter) devCliTextAfter.textContent = '';
+        } else {
+          devCliText.textContent = val.slice(0, sel);
+          devCursor.textContent = val.charAt(sel);
+          devCursor.className = 'dev_block_cursor dev_cursor_char';
+          if (devCliTextAfter) devCliTextAfter.textContent = val.slice(sel + 1);
+        }
+        // Keystroke refreshes cursor phase to stay solid while actively typing
+        devCursor.style.animation = 'none';
+        devCursor.offsetHeight; // trigger reflow
+        devCursor.style.animation = 'devCursorBlink 1s infinite';
+      }
+
       function appendCliLog(command, outputLines) {
         if (!devCliHistory) return;
         const entry = document.createElement('div');
-        entry.style.marginBottom = '6px';
+        entry.style.marginBottom = '8px';
         entry.innerHTML = `
-          <div style="color: #0969DA; font-weight: 600;">~ $ <span style="color: #1F2328; font-weight: 500;">${command}</span></div>
-          <div style="padding-left: 14px; color: #4B5563; font-size: 13px; line-height: 1.5; margin-top: 2px;">
+          <div style="color: #57606A; font-weight: 600; font-size: 15px;">~ $ <span style="color: #111317; font-weight: 500;">${command}</span></div>
+          <div style="padding-left: 16px; color: #374151; font-size: 14.5px; line-height: 1.6; margin-top: 3px;">
             ${outputLines.join('<br>')}
           </div>
         `;
@@ -3107,17 +3303,17 @@ def test_zero_lookahead_strict_causality():
 
         if (cmd === 'help') {
           appendCliLog(rawCmd, [
-            '<strong style="color:#111;">Available commands:</strong>',
-            '  <span style="color:#0969DA;">whoami</span>      - About Rusdan Lamsa',
-            '  <span style="color:#0969DA;">skills</span>      - Engineering stack & competencies',
-            '  <span style="color:#0969DA;">chip</span>        - Toggle hardware chip / monogram view',
-            '  <span style="color:#0969DA;">philosophy</span>  - Engineering axioms & invariants',
-            '  <span style="color:#0969DA;">contact</span>     - Reach out via email or GitHub',
-            '  <span style="color:#0969DA;">clear</span>       - Clear terminal screen'
+            '<strong style="color:#111317;">Available commands:</strong>',
+            '  <strong style="color:#111317;">whoami</strong>        - About Rusdan Lamsa',
+            '  <strong style="color:#111317;">skills</strong>        - Engineering stack & competencies',
+            '  <strong style="color:#111317;">chip</strong>          - Toggle hardware chip / monogram view',
+            '  <strong style="color:#111317;">philosophy</strong>    - Engineering axioms & invariants',
+            '  <strong style="color:#111317;">contact</strong>       - Reach out via email or GitHub',
+            '  <strong style="color:#111317;">clear</strong>         - Clear terminal screen'
           ]);
         } else if (cmd === 'whoami') {
           appendCliLog(rawCmd, [
-            '<strong style="color:#111;">Rusdan Lamsa</strong> — Software Engineer',
+            '<strong style="color:#111317;">Rusdan Lamsa</strong> — Software Engineer',
             'Focus: High-Performance Systems, Low-Latency Architecture & Clean Craft',
             'Location: Bangkok, Thailand'
           ]);
@@ -3128,35 +3324,55 @@ def test_zero_lookahead_strict_causality():
             '<strong>Frontend:</strong> Clean Canvas/SVG Visualizations, Micro-Interactions'
           ]);
         } else if (cmd === 'chip' || cmd === 'morph') {
+          if (morphTimeout) {
+            clearTimeout(morphTimeout);
+            morphTimeout = null;
+          }
           toggleMorph();
+          if (isSettledOnFrame1) scheduleNextMorph(2400);
           appendCliLog(rawCmd, [
-            `Hardware Chip matrix state toggled: <strong>${isMorphed ? 'MORPHED (Chip + Monogram)' : 'DEFAULT (Hex Dump)'}</strong>`
+            `Hardware Chip matrix state: <strong>${targetMorphProgress === 1 ? 'MORPHED (Hardware Chip & Monogram)' : 'DEFAULT (Hex Dump)'}</strong>`
           ]);
         } else if (cmd === 'philosophy') {
           appendCliLog(rawCmd, [
-            '<span style="color:#0969DA; font-style:italic;">"Make it deterministic. Make it low-latency. Make it timeless."</span>'
+            '<span style="color:#111317; font-style:italic;">"Make it deterministic. Make it low-latency. Make it timeless."</span>'
           ]);
         } else if (cmd === 'contact') {
           appendCliLog(rawCmd, [
-            'Email: <a href="mailto:rusdanlamsa@gmail.com" style="color:#0969DA; text-decoration:none;">rusdanlamsa@gmail.com</a>',
-            'GitHub: <a href="https://github.com/gxmngi" target="_blank" style="color:#0969DA; text-decoration:none;">github.com/gxmngi</a>'
+            'Email: <a href="mailto:rusdanlamsa@gmail.com" style="color:#111317; font-weight:600; text-decoration:underline;">rusdanlamsa@gmail.com</a>',
+            'GitHub: <a href="https://github.com/gxmngi" target="_blank" style="color:#111317; font-weight:600; text-decoration:underline;">github.com/gxmngi</a>'
           ]);
         } else {
           appendCliLog(rawCmd, [
-            `<span style="color:#CF222E;">command not found: ${rawCmd}</span>. Type <strong style="color:#0969DA;">help</strong> to see available commands.`
+            `<span style="color:#CF222E;">command not found: ${rawCmd}</span>. Type <strong style="color:#111317;">help</strong> to see available commands.`
           ]);
         }
       }
 
       if (devCliInput) {
+        devCliInput.addEventListener('input', updateCliDisplay);
+        devCliInput.addEventListener('keyup', updateCliDisplay);
+        devCliInput.addEventListener('click', updateCliDisplay);
+        devCliInput.addEventListener('select', updateCliDisplay);
+
         devCliInput.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
             const val = devCliInput.value;
             devCliInput.value = '';
+            updateCliDisplay();
             handleCliCommand(val);
           }
         });
       }
+
+      if (devCliRow) {
+        devCliRow.addEventListener('click', () => {
+          if (devCliInput) devCliInput.focus();
+        });
+      }
+
+      // Initialize cursor state immediately
+      updateCliDisplay();
     })();
 
   </script>
